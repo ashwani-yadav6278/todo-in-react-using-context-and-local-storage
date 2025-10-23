@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react'
 
 import {TodoProvider} from './context'
-import { Form } from './components'
+import { Form, TodoItem } from './components'
 const App = () => {
   const [todos,setTodos]=useState([])
   const addTodo=(newTodo)=>{
     setTodos((prevTodo)=>[{id:Date.now(),...newTodo},...prevTodo])
+    console.log({...newTodo})
   }
   const deleteTodo=(id)=>{
-    setTodos((prev)=>prev.filter((deltodo)=>deltodo.id!==id))
+    console.log("Delete id",id);
+    setTodos((prev)=>prev.filter((deltodo)=>deltodo.id!=id))
   }
   const updateTodo=(id,todo)=>{
+    // console.log(id,todo)
     setTodos((prev)=>prev.map((prevTodo)=>prevTodo.id===id?todo:prevTodo))
-   
+  //  console.log(id,todo)
   }
   const toggleComplete=(id)=>{
+    console.log("toggleCompleted id:",id)
     setTodos((prev)=>prev.map((prevTodo)=>prevTodo.id===id?{...prevTodo,completed:!prevTodo.completed}:prevTodo))
   }
   
@@ -39,7 +43,13 @@ const App = () => {
                     </div>
                     <div className="flex flex-wrap gap-y-3">
                         {/*Loop and Add TodoItem here */}
-                        
+                         
+                          {todos.map((item)=>(
+                            <div className='w-full' key={item.id}>
+                              {console.log(item.id)}
+                                <TodoItem todo={item}/>
+                            </div>
+                          ))}
                     </div>
                 </div>
             </div>
